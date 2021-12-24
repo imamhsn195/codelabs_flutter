@@ -10,18 +10,9 @@ class MyApp extends StatelessWidget{
 
   Widget build(BuildContext context){
     // final wordPair = WordPair.random();
-    return MaterialApp(
-      title: "Code Labs Flutter App Part 1",
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Part 1 App Bar Title"),
-        ),
-        body: const Center(
-          // child: Text('Scaffold Body')
-          // child: Text(wordPair.asPascalCase),
-          child: RandomWords(),
-        ),
-      ),
+    return const MaterialApp(
+      title: "Start Up Name Generator",
+      home: RandomWords(),
     );
   }
 }
@@ -34,9 +25,42 @@ class RandomWords extends StatefulWidget {
 }
 
 class _RandomWordsState extends State<RandomWords> {
+  final _suggesions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-    return Text(wordPair.asPascalCase);
+    // final wordPair = WordPair.random();
+    // return Text(wordPair.asPascalCase);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Start Up Name Generator'),
+      ),
+      body: _buildSuggesions(),
+    );
+  }
+
+  Widget _buildSuggesions(){
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemBuilder: (BuildContext _context, int i){
+        if(i.isOdd){
+          return const Divider();
+        }
+        final int index = i ~/ 2;
+        if(index >= _suggesions.length){
+          _suggesions.addAll(generateWordPairs().take(10));
+        }
+      return _buildRow(_suggesions[index]);
+      }
+    );
+  }
+
+  Widget _buildRow(WordPair pair){
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      )
+    );
   }
 }
