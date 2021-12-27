@@ -68,6 +68,15 @@ class _RandomWordsState extends State<RandomWords> {
         color: _alreadySaved ? Colors.red : null,
         semanticLabel: _alreadySaved ? "Remove from favorate" : "Save",
       ),
+      onTap: (){
+        setState(() {
+          if(_alreadySaved){
+            _saved.remove(pair);
+          }else{
+            _saved.add(pair);
+          }
+        });
+      },
     );
   }
 }
