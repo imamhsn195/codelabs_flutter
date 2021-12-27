@@ -25,7 +25,7 @@ class RandomWords extends StatefulWidget {
 }
 
 class _RandomWordsState extends State<RandomWords> {
-  final _suggesions = <WordPair>[];
+  final _suggestions = <WordPair>[];
   final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
   @override
@@ -35,12 +35,21 @@ class _RandomWordsState extends State<RandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Start Up Name Generator'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: _pushSaved, 
+            tooltip: "Saved Suggestions",
+          )
+        ],
       ),
-      body: _buildSuggesions(),
+      body: _buildSuggestions(),
     );
   }
-
-  Widget _buildSuggesions(){
+  void _pushSaved(){
+    
+  }
+  Widget _buildSuggestions(){
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemBuilder: (BuildContext _context, int i){
@@ -48,10 +57,10 @@ class _RandomWordsState extends State<RandomWords> {
           return const Divider();
         }
         final int index = i ~/ 2;
-        if(index >= _suggesions.length){
-          _suggesions.addAll(generateWordPairs().take(10));
+        if(index >= _suggestions.length){
+          _suggestions.addAll(generateWordPairs().take(10));
         }
-      return _buildRow(_suggesions[index]);
+      return _buildRow(_suggestions[index]);
       }
     );
   }
@@ -66,7 +75,7 @@ class _RandomWordsState extends State<RandomWords> {
       trailing: Icon(
         _alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: _alreadySaved ? Colors.red : null,
-        semanticLabel: _alreadySaved ? "Remove from favorate" : "Save",
+        semanticLabel: _alreadySaved ? "Remove from favorite" : "Save",
       ),
       onTap: (){
         setState(() {
